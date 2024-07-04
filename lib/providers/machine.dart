@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:cic_production_pi/models/Machinemodel.dart';
+import 'package:cic_production_pi/models/ProdrecstatusModel.dart';
+import 'package:cic_production_pi/models/Prorecmodel.dart';
 import 'package:cic_production_pi/models/Wagonmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,8 @@ class MachineData extends ChangeNotifier {
       "http://app.cic-production-wip.net/api/machineasspi/findmachineno";
   final String url_to_findcar =
       "http://app.cic-production-wip.net/api/machineasspi/findwagonno";
+  final String url_to_add_receive =
+      "http://app.cic-production-wip.net/api/machineasspi/addreceive";
 
   late List<WagonModel> _wagonlist;
   List<WagonModel> get wagonlist => _wagonlist;
@@ -47,6 +51,7 @@ class MachineData extends ChangeNotifier {
           final MachineModel user = MachineModel(
             id: res['data'][i]['id'].toString(),
             machine_code: machinecode,
+            item_id: res['data'][i]['itemid'].toString(),
             item_code: res['data'][i]['itemname'].toString(),
             prod_no: res['data'][i]['workorder_no'].toString(),
             prod_qty: res['data'][i]['qty'].toString(),
@@ -108,5 +113,74 @@ class MachineData extends ChangeNotifier {
       return false;
     }
     // return machineList;
+  }
+
+  Future<List<ProdrecstatusModel>> addProdrecData(
+      List<ProdrecModel> _listdata) async {
+    List<ProdrecstatusModel> _data = [];
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String emp_no = prefs.getString('user_no').toString();
+    String emp_shift_id = prefs.getString('emp_shift_id').toString();
+    String emp_work_shift_id = prefs.getString('emp_work_shift_id').toString();
+
+    final jsonObj = _listdata
+        .map((e) => {
+              'emp_no': emp_no,
+              'emp_shif_id': emp_shift_id,
+              'emp_work_shift_id': emp_work_shift_id,
+              'machine_no': e.machine_no,
+              'workorder_no': e.workorder_no,
+              'itemid': e.itemid,
+              'qty': e.qty
+            })
+        .toList();
+
+    final Map<String, dynamic> rec_data = {
+      'data': jsonObj,
+    };
+    // print("data for save is ${rec_data}");
+    // return false;
+    try {
+      http.Response response;
+      response = await http.post(Uri.parse(url_to_add_receive),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(rec_data));
+      if (response.statusCode == 200) {
+        Map<String, dynamic> res = json.decode(response.body);
+
+        if (res == null) {
+          _data.add(ProdrecstatusModel(
+            status: '0',
+            message: 'No Data',
+          ));
+          notifyListeners();
+          return _data;
+        }
+        if (res['status'] == 1) {
+          print('result is ${res}');
+          _data.add(ProdrecstatusModel(
+            status: '1',
+            message: 'Save Success',
+          ));
+          notifyListeners();
+          print('save ok');
+          return _data;
+        } else if (res['status'] == 100) {
+          _data.add(ProdrecstatusModel(
+            status: '100',
+            message: 'Over Quantity',
+          ));
+          notifyListeners();
+          return _data;
+        } else {
+          return _data;
+        }
+      } else {
+        return _data;
+      }
+    } catch (err) {
+      print(err);
+      return _data;
+    }
   }
 }

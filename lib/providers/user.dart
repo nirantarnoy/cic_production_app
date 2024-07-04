@@ -14,7 +14,7 @@ class UserData with ChangeNotifier {
 
   late User _authenticatedUser;
   late User _emptyauthenicatedUser;
-  late Timer _authTimer;
+  late Timer? _authTimer;
 
   // List<User> _user;
   // List<User> _userlogin;
@@ -109,7 +109,12 @@ class UserData with ChangeNotifier {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
 
         prefs.setString('user_id', res['data'][0]['id'].toString());
+        prefs.setString('user_no', res['data'][0]['person_no'].toString());
         prefs.setString('user_name', res['data'][0]['person_name'].toString());
+        prefs.setString(
+            'emp_shift_id', res['data'][0]['emp_shift_id'].toString());
+        prefs.setString('emp_work_shift_id',
+            res['data'][0]['emp_work_shift_id'].toString());
         prefs.setString('expiryTime', expiryTime.toIso8601String());
         return true;
       } else {
@@ -180,7 +185,10 @@ class UserData with ChangeNotifier {
   Future<Map<String, dynamic>> logout() async {
     //_authenticatedUser = _emptyauthenicatedUser;
     _isauthenuser = false;
-    _authTimer.cancel();
+    // if (_authTimer != null) {
+    //   _authTimer!.cancel();
+    // }
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     // prefs.remove('token');
