@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cic_production_pi/models/Machinemodel.dart';
 import 'package:cic_production_pi/models/ProdrecstatusModel.dart';
 import 'package:cic_production_pi/models/Prorecmodel.dart';
+import 'package:cic_production_pi/pages/worktrans.dart';
 import 'package:cic_production_pi/providers/machine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -679,7 +680,18 @@ class _ProdrecPageState extends State<ProdrecPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text('รับยอด')),
+      appBar: AppBar(
+        title: Text('รับยอด'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WorktransPage(),
+                ));
+              },
+              icon: Icon(Icons.list_alt_outlined)),
+        ],
+      ),
       body: Column(children: <Widget>[
         SizedBox(
           height: 15,
