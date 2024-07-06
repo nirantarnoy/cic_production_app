@@ -708,7 +708,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                     child: Text(
                       'รหัสเครื่อง',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.black,
                       ),
                     ),
@@ -719,7 +719,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                         ? Text(
                             '${_machinecontroller.text}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           )
                         : Icon(
@@ -739,7 +739,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                     child: Text(
                       'เลขที่ใบสั่ง',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.black,
                       ),
                     ),
@@ -750,7 +750,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                         ? Text(
                             '${_wocontroller.text}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           )
                         : Icon(
@@ -770,7 +770,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                     child: Text(
                       'รหัสยาง',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.black,
                       ),
                     ),
@@ -781,7 +781,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                         ? Text(
                             '${_woitemcontroller.text}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           )
                         : Icon(
@@ -801,7 +801,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                     child: Text(
                       'เลขรถ',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.black,
                       ),
                     ),
@@ -812,7 +812,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                         ? Text(
                             '${_carcontroller.text}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           )
                         : Icon(
@@ -832,7 +832,7 @@ class _ProdrecPageState extends State<ProdrecPage> {
                     child: Text(
                       'จำนวนรับ',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 28,
                         color: Colors.black,
                       ),
                     ),
